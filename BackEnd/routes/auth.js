@@ -4,7 +4,12 @@ const { check, validationResult } = require("express-validator");
 const bcrypt = require('bcrypt');
 const JWT = require('jsonwebtoken');
 const verifyUser= require('../middleware/verifyUser')
-const JWT_SEC = 'l_#$alitherohai';
+
+
+// access env var
+const JWT_SEC = process.env.JWT_SEC;
+
+//initializing router
 const router = express.Router();
 
 //PORT 1:  create user using: Post "/api/auth/signup". Dosen't require auth
@@ -107,12 +112,13 @@ router.post('/login', [
     else
       res.status(400).send("invalid credentials");
   } catch (error) {
+    console.log(error)
     return res.status(500).send('server error');
   }
 });
 
 
-//PORT 2:  verify user using: Post "/api/auth/verify".Authentication required.
+//PORT 3:  verify user using: Post "/api/auth/verify".Authentication required.
 router.post('/verify',verifyUser,async (req,res)=>{
   try{
   let user = await User.findOne({_id: req.user.id},'-password');

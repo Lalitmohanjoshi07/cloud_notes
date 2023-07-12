@@ -1,13 +1,15 @@
 // to verify user token
 const JWt = require("jsonwebtoken");
-const JWT_SEC = "l_#$alitherohai";
+
+// access env var
+const JWT_SEC = process.env.JWT_SEC;
 
 const verifyUser = async (req, res, next) => {
 
     // Get user from jwt token and append it to the request
   let token = await req.headers.token;
   if(!token){
-    return res.status(401).send('token not found');
+    return res.status(401).json({msg:'token not found'});
   }
   try {
     // console.log(token);
@@ -17,7 +19,7 @@ const verifyUser = async (req, res, next) => {
     next();
   } catch (err) {
     console.log(err);
-    res.status(401).send('unauthorized access');
+    res.status(401).json({msg: 'Access denied'});
   }
 //   res.send('heoolo')
 };
