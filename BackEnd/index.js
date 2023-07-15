@@ -17,6 +17,6 @@
     })
     
     app.listen(port, () => {
-        console.log(`Example app listening on port ${port}`)
+        console.log(`CLOUDnotes backend listening on port ${port}`)
     })
     connectToDb();
