@@ -45,8 +45,8 @@ router.put(
   }
 );
 
-//PORT 2:  reading note using: Post "/api/notes/read". Login required.
-router.post("/read", verifyUser, async (req, res) => {
+//PORT 2:  reading note using: Get "/api/notes/read". Login required.
+router.get("/read", verifyUser, async (req, res) => {
   try {
     const notes = await Note.find({ user: req.user.id });
     res.json(notes);
