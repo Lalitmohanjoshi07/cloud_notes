@@ -1,17 +1,13 @@
 import React, { useContext } from "react";
 import NoteContext from "../context/notes/NoteContext";
 import Noteitem from "./Noteitem";
-import { useEffect } from "react";
 
 // function to display existing notes
 const Notes = () => {
   let id = 0;
   const context = useContext(NoteContext);
-  const { note, deleteNote, fetchNote } = context;
-  useEffect(() => {
-    fetchNote();
-    // eslint-disable-next-line
-  }, []);
+  const { note, deleteNote } = context;
+
   return (
     <div className="container row my-4">
       <h1>Your notes!</h1>

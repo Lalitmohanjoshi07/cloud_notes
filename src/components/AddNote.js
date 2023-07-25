@@ -26,7 +26,7 @@ const AddNote = () => {
         {/* title of the note */}
         <div className="row mb-3 container">
         <label htmlFor="title" className="col-sm-2 col-form-label">
-            Title:
+            <u><h6>Title :</h6></u>
           </label>
           <div className="col-sm-5">
             <input
@@ -39,7 +39,7 @@ const AddNote = () => {
             />
           </div>
           <label htmlFor="tag" className="col-sm-1 col-form-label">
-            Tag:
+          <u><h6>Tag :</h6></u>
           </label>
           <div className="col-sm-3">
             <input
@@ -56,7 +56,7 @@ const AddNote = () => {
         {/* description of the Note */}
         <div className="row mb-3">
           <label htmlFor="description" className="col-md-2 col-form-label">
-            Description:
+          <u><h6>Description :</h6></u>
           </label>
           <div className="col-md-8">
             <textarea
@@ -72,11 +72,11 @@ const AddNote = () => {
 
         <div className="my-4">
           {/* add button */}
-          <button type="submit" disabled={state.title==="" && state.description===""} className="btn btn-primary mx-4">
+          <button type="submit" disabled={( (state.title.length < 5) || (state.description.length < 10) )} className="btn btn-primary mx-4">
             Add
           </button>
           {/* reset button  */}
-          <button type="reset" disabled={state.title==="" && state.description===""} className="btn btn-warning mx-4">
+          <button type="reset" disabled={!(state.title || state.description)} className="btn btn-warning mx-4">
             reset
           </button>
         </div>

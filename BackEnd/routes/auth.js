@@ -29,6 +29,7 @@ router.post(
     ).isLength({ min: 8 }),
   ],
   async (req, res) => {
+    let success=false;
     // validationResult function checks whether
     // any occurs or not and return an object
     const errors = validationResult(req);
@@ -36,7 +37,7 @@ router.post(
     // If some error occurs, then this
     // block of code will run
     if (!errors.isEmpty()) {
-      res.status(400).json(errors);
+      res.status(400).json({success,errors});
       return;
     }
 
@@ -44,7 +45,7 @@ router.post(
       // checking weather email already exist or not
       let x = await User.findOne({ email: req.body.email });
       if (x) {
-        res.send("email already registered");
+        res.json({success:success,error:"email already registered"});
         return;
       }
 
@@ -67,10 +68,11 @@ router.post(
         }
       }
       let token=await JWT.sign(data,JWT_SEC);
-      res.send(token);
+      success=true;
+      res.json({success,token});
 
     } catch (err) {
-      res.status(500).send('server error');
+      res.status(500).send({success,error:'server error'});
       console.log(err);
     }
   }
@@ -84,7 +86,7 @@ router.post('/login', [
     .isLength({ min: 10, max: 30 }),
   check('password', 'password cannot be empty').isLength({ min: 1 })
 ], async (req, res) => {
-
+  let success=false;
   // validationResult function checks whether
   // any occurs or not and return an object
   const errors = validationResult(req);
@@ -92,14 +94,14 @@ router.post('/login', [
   // If some error occurs, then this
   // block of code will run
   if (!errors.isEmpty()) {
-    res.status(400).json(errors);
+    res.status(400).json({success,errors});
     return;
   }
   try {
     //checking if the user exists or not
     const x = await User.findOne({ email: req.body.email });
     if (!x) {//if user dosen't exists
-      return res.json({ msg: "invalid credentials" });
+      return res.json({success, msg: "invalid credentials" });
     }
     //if user exists
     //validating password
@@ -107,13 +109,14 @@ router.post('/login', [
     if (validate) {
       //generating token
       var token = JWT.sign({ id: x._id }, JWT_SEC);
-      res.json(token);
+      success=true;
+      res.json({success,token});
     }
     else
-      res.status(400).send("invalid credentials");
+      res.status(400).json({success,error:"invalid credentials"});
   } catch (error) {
     console.log(error)
-    return res.status(500).send('server error');
+    return res.status(500).send({success,error:'server error'});
   }
 });
 

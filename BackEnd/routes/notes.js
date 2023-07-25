@@ -49,7 +49,7 @@ router.put(
 router.get("/read", verifyUser, async (req, res) => {
   try {
     const notes = await Note.find({ user: req.user.id });
-    res.json(notes);
+    res.json({notes});
   } catch (err) {
     console.log(err);
     return res.status(500).send("server error");
