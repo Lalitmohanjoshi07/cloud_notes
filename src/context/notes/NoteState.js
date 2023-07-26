@@ -147,8 +147,8 @@ const NoteState = (props) => {
       localStorage.setItem('token',res.token)
       return 1;
     }else{
-      alert(res.error);
-      return 0;
+      // alert(res.msg);
+      return (res.msg);
     }
   }
 
@@ -156,7 +156,6 @@ const NoteState = (props) => {
   const userSignup= async(name,email,password)=>{
 
     let data={name:name, email:email, password:password};
- console.log(data);
     // making api call 
     let response = await fetch(url+'/auth/signup',{
       method: 'POST',
@@ -173,13 +172,12 @@ const NoteState = (props) => {
       localStorage.setItem('token',res.token)
       return 1;
     }else{
-      alert(res.error);
-      return 0;
+      return (res.msg);
     }
   }
 
   return (
-    <NoteContext.Provider value={{ note, updateNote, addNote, deleteNote, fetchNote}}>
+    <NoteContext.Provider value={{note, updateNote, addNote, deleteNote, fetchNote}}>
       <AuthContext.Provider value={{userSignup,userLogin}}>
         {props.children}
       </AuthContext.Provider>

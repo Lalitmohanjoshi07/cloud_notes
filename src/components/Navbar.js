@@ -6,6 +6,7 @@ function Navbar(props) {
   // const na= useNavigation();
   const logout = ()=>{
     localStorage.removeItem('token');
+    props.salert({type:'success', msg:'logged out'});
     props.sett(false);
   };
   return (

@@ -37,7 +37,7 @@ router.post(
     // If some error occurs, then this
     // block of code will run
     if (!errors.isEmpty()) {
-      res.status(400).json({success,errors});
+      res.status(400).json({success,msg:errors.errors[0].msg});
       return;
     }
 
@@ -45,7 +45,7 @@ router.post(
       // checking weather email already exist or not
       let x = await User.findOne({ email: req.body.email });
       if (x) {
-        res.json({success:success,error:"email already registered"});
+        res.json({success:success,msg:"email already registered"});
         return;
       }
 
@@ -61,18 +61,19 @@ router.post(
         password: password,
         date: req.body.date,
       })
+      // let y=await user.json();
+
       
       let data={
-        user:{
-          id: user._id
-        }
+        id : user._id.valueOf()
       }
-      let token=await JWT.sign(data,JWT_SEC);
+      //token generation
+      let token=await JWT.sign({id: data.id},JWT_SEC);
       success=true;
       res.json({success,token});
 
     } catch (err) {
-      res.status(500).send({success,error:'server error'});
+      res.status(500).send({success,msg:'server error'});
       console.log(err);
     }
   }
@@ -94,7 +95,7 @@ router.post('/login', [
   // If some error occurs, then this
   // block of code will run
   if (!errors.isEmpty()) {
-    res.status(400).json({success,errors});
+    res.status(400).json({success , msg:errors.errors[0].msg});
     return;
   }
   try {
@@ -113,10 +114,10 @@ router.post('/login', [
       res.json({success,token});
     }
     else
-      res.status(400).json({success,error:"invalid credentials"});
+      res.status(400).json({success,msg:"invalid credentials"});
   } catch (error) {
     console.log(error)
-    return res.status(500).send({success,error:'server error'});
+    return res.status(500).send({success,msg:'server error'});
   }
 });
 

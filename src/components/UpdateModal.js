@@ -120,7 +120,7 @@ const UpdateModal = (props) => {
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={()=>{updateNote(noteId, state.etitle, state.edescription, state.etag)}}
+                onClick={()=>{updateNote(noteId, state.etitle, state.edescription, state.etag); props.salert({type:'success', msg:'note updated succesfully'});}}
                 data-bs-dismiss="modal"
               >
                 Save changes

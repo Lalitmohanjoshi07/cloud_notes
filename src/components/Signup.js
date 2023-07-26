@@ -3,8 +3,11 @@ import {useNavigate} from "react-router-dom";
 import AuthContext from "../context/auth/AuthContext";
 
 const Signup = (props)=>{
+  useEffect(()=>{
+    props.sett(false);
+    document.title='CLOUDnotes-signup'
     // eslint-disable-next-line
-    useEffect(()=>{props.sett(false);},[])
+    },[])
     
     const history=useNavigate();
     const context = useContext(AuthContext)
@@ -15,12 +18,13 @@ const Signup = (props)=>{
       let name=document.getElementById('name').value;
       let password=document.getElementById('inputPassword').value
       let x=await context.userSignup(name,email,password);
-      setTimeout(() => {
-        if(x===1){
-            props.sett(true);
-            history('/home');
-        }
-      }, 2000);
+      if(x===1){
+        history('/home');
+        props.sett(true);
+        props.salert({type:'success', msg:'signup success'})
+      }else{
+        props.salert({type:'danger', msg: x});
+      }
     }   
     const form={backgroundColor:'#fffcadb8',maxWidth:"50%", position: "fixed", top: "25%", left: "25%", border:"solid black 2px",borderRadius: '10px'};
     return (
@@ -64,7 +68,7 @@ const Signup = (props)=>{
             <button type="submit" className="btn btn-primary"style={{margin:'5px'}}>
               signup
             </button>
-            <button className="btn btn-warning"onClick={()=>{history('/')}}>login</button>
+            <button className="btn btn-warning" type="reset" onClick={()=>{history('/')}}>login</button>
           </form>
 
         </div>
