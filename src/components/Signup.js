@@ -35,7 +35,7 @@ const Signup = (props)=>{
         </div>
           <form onSubmit={submit} className="container p-3" style={form}>
             <center><h2>CLOUDnotes</h2></center>
-            <h4 className="my-3">Login to continue</h4>
+            <h4 className="my-3">Signup to continue</h4>
 
             {/* name  */}
             <div className="row mb-3">
