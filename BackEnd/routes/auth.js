@@ -2,12 +2,12 @@ const express = require("express");
 const User = require("../models/Users");
 const { check, validationResult } = require("express-validator");
 const bcrypt = require('bcrypt');
-const JWT = require('jsonwebtoken');
+const JWT = require('jsonwebtoken');  
 const verifyUser= require('../middleware/verifyUser')
 
 
 // access env var
-const JWT_SEC = process.env.JWT_SEC;
+const JWT_SEC = process.env.JWT_SEC||'lalitherohai!@!12';
 
 //initializing router
 const router = express.Router();
@@ -29,7 +29,7 @@ router.post(
     ).isLength({ min: 8 }),
   ],
   async (req, res) => {
-    let success=false;
+    let success=false;    
     // validationResult function checks whether
     // any occurs or not and return an object
     const errors = validationResult(req);
@@ -44,6 +44,7 @@ router.post(
     try {
       // checking weather email already exist or not
       let x = await User.findOne({ email: req.body.email });
+      
       if (x) {
         res.json({success:success,msg:"email already registered"});
         return;
